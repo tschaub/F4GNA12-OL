@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="externals/deckjs/core/deck.core.css">
+    <link rel="stylesheet" href="externals/deckjs/extensions/navigation/deck.navigation.css">
+    <link rel="stylesheet" href="externals/deckjs/extensions/goto/deck.goto.css">
+    <link rel="stylesheet" href="externals/deckjs/extensions/hash/deck.hash.css">
+
+    <link rel="stylesheet" href="externals/deckjs/themes/transition/horizontal-slide.css">
+
+    <style>
+    body {
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+    }
+    .deck-container .slide h1 {
+        text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    }
+    .deck-container .slide h2 {
+        font-family: Georgia, sans-serif;
+        color: #B16642;
+    }
+    .slide p, .slide li {
+        font-size: 150%;
+    }
+    ul.authors {
+        position: absolute;
+        top: 70%;
+    }
+    ul.authors li {
+        list-style: none;
+        font-size: 2.25em;
+        font-weight: bold;
+    }
+    div.caption {
+        font-size: 2.25em;
+        text-align: center;
+    }
+    </style>
+
+    <script src="externals/deckjs/modernizr.custom.js"></script>
+</head>
+
+<body class="deck-container">
+        <div class="slide" id="frontpage">
+            <h2>OpenLayers</h2>
+            <h1>The Rebirth of Cool</h1>
+            <ul class="authors">
+                <li>Tim Schaub (OpenGeo)</li>
+                <li>Eric Lemoine (Camptocamp)</li>
+            </ul>
+        </div>
+
+        <section class="slide" id="intro">
+            <h1>Intro</h1>
+            <!-- Speaker notes:
+            - How did we get here?
+            -->
+        </section>
+
+        <section class="slide" id="whats-new">
+            <h1>What's new</h1>
+            <p><em>(and some old stuff you should know about too)</em></p>
+        </section>
+        
+        <section class="slide" id="github-move">
+            <h2>We've moved!</h2>
+            <img src="img/octocat.jpg" style="width: 40%;" alt="OpenLayers on GitHub">
+        </section>
+
+        <section class="slide" id="github-move">
+            <h2>Increase in activity &amp; contributions</h2>
+        </section>
+
+        <section class="slide" id="thanks">
+            <h1>Thanks!</h1>
+        </section>
+
+        <form action="." method="get" class="goto-form">
+            <label for="goto-slide">Go to slide:</label>
+
+            <input type="number" name="slidenum" id="goto-slide">
+            <input type="submit" value="Go">
+        </form>
+</body>
+
+<script src="externals/deckjs/jquery-1.7.min.js"></script>
+<script src="externals/deckjs/core/deck.core.js"></script>
+<script src="externals/deckjs/extensions/navigation/deck.navigation.js"></script>
+<script src="externals/deckjs/extensions/goto/deck.goto.js"></script>
+<script src="externals/deckjs/extensions/hash/deck.hash.js"></script>
+<script>
+    $(function() {
+        $.deck('.slide');
+    });
+</script>
+
+</html>
