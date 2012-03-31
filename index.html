@@ -18,11 +18,17 @@
         text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
     }
     .deck-container .slide h2 {
-        font-family: Georgia, sans-serif;
-        color: #B16642;
+        color: #2d60b5;
+        border-bottom-color: #e28f3d;
     }
     .slide p, .slide li {
         font-size: 150%;
+    }
+    .subtle {
+        color: #666;
+    }
+    .slide em.subtle {
+        font-size: 50%;
     }
     ul.authors {
         position: absolute;
@@ -47,8 +53,8 @@
             <h2>OpenLayers</h2>
             <h1>The Rebirth of Cool</h1>
             <ul class="authors">
-                <li>Tim Schaub (OpenGeo)</li>
-                <li>Eric Lemoine (Camptocamp)</li>
+                <li>Tim Schaub <span class="subtle">(OpenGeo)</span></li>
+                <li>Eric Lemoine <span class="subtle">(Camptocamp)</span></li>
             </ul>
         </div>
 
@@ -60,8 +66,7 @@
         </section>
 
         <section class="slide" id="whats-new">
-            <h1>What's new</h1>
-            <p><em>(and some old stuff you should know about too)</em></p>
+            <h1>What's new?<br><em class="subtle">(and some old stuff you should know about too)</em></h1>
         </section>
         
         <section class="slide" id="github-move">
