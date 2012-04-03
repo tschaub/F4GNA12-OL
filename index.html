@@ -43,6 +43,16 @@
         font-size: 2.25em;
         text-align: center;
     }
+    
+    #contributors-bin {
+        margin: 0 auto;
+        width: 60%;
+    }
+    .slide img.gravatar {
+        margin: 1em;
+        width: 100px;
+        display: inline;
+    }
     </style>
 
     <script src="externals/deckjs/modernizr.custom.js"></script>
@@ -74,10 +84,20 @@
             <img src="img/octocat.jpg" style="width: 40%;" alt="OpenLayers on GitHub">
         </section>
 
-        <section class="slide" id="github-move">
-            <h2>Increase in activity &amp; contributions</h2>
+        <section class="slide" id="contributors">
+            <h2>Contributors galore</h2>
+            <div id="contributors-bin"></div>
         </section>
 
+        <section class="slide" id="activity-commits">
+            <h2>Increase in activity &amp; contributions</h2>
+            <img src="img/chart-commits.png" style="width: 80%;" alt="OpenLayers Commits">
+        </section>
+        <section class="slide" id="activity-contributors">
+            <h2>Increase in activity &amp; contributions</h2>
+            <img src="img/chart-contributors.png" style="width: 80%;" alt="OpenLayers Contributors">
+        </section>
+        
         <section class="slide" id="thanks">
             <h1>Thanks!</h1>
         </section>
@@ -97,7 +117,35 @@
 <script src="externals/deckjs/extensions/hash/deck.hash.js"></script>
 <script>
     $(function() {
-        $.deck('.slide');
+        $.deck(".slide");
+        
+        var contribImages = ["ahocevar.jpeg", "argson.png", "bartvde.jpeg", "crschmidt.jpeg", "drnextgis.png", "elemoine.jpeg", "fredj.jpeg", "gravatar.png", "gravitystorm.png", "jorix.png", "marcjansen.png", "mprins.jpeg", "mpriour.jpeg", "pagameba.jpeg", "perrygeo.jpeg", "pgiraud.jpeg", "sbrunner.png", "schuyler.jpeg", "tmcw.jpeg", "tomhughes.jpeg", "tonio.jpeg", "towa48.jpeg", "tschaub.png", "twpayne.jpeg", "ZiglioNZ.jpeg"];
+        contribImages.sort(function() {return (Math.round(Math.random())-0.5);});
+        
+        var gravatarTimer = null;
+        
+        $(document).bind("deck.change", function(event, from, to) {
+            window.clearTimeout(gravatarTimer);
+            var toId = $.deck("getSlide", to).attr("id");
+            if (toId === "contributors") {
+                var container = $("#contributors-bin");
+                var img;
+                for (var i=0, ii=contribImages.length; i<ii; ++i) {
+                    img = document.createElement("img");
+                    img.className = "gravatar";
+                    img.src = "img/gravatars/" + contribImages[i];
+                    container.append(img);
+                }
+                gravatarTimer = window.setInterval(function() {
+                    var first = $(container.children()[0]);
+                    var height = first.height();
+                    first.animate({width: "toggle", height: height, opacity: "toggle"}, {complete: function() {
+                        container.append(first);
+                        first.animate({width: "toggle", opacity: "toggle"});
+                    }});
+                }, 1500);
+            }
+        });
     });
 </script>
 
