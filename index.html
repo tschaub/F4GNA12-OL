@@ -47,11 +47,17 @@
     #contributors-bin {
         margin: 0 auto;
         width: 60%;
+        overflow: hidden;
+        height: 50%;
     }
     .slide img.gravatar {
         margin: 1em;
         width: 100px;
         display: inline;
+    }
+    div.caption {
+        font-size: 2.25em;
+        text-align: center;
     }
     </style>
 
@@ -91,13 +97,76 @@
 
         <section class="slide" id="activity-commits">
             <h2>Increase in activity &amp; contributions</h2>
-            <img src="img/chart-commits.png" style="width: 80%;" alt="OpenLayers Commits">
+            <img src="img/chart-commits.png" style="height: 75%;" alt="OpenLayers Commits">
+            <div class="caption">commits</div>
         </section>
         <section class="slide" id="activity-contributors">
             <h2>Increase in activity &amp; contributions</h2>
-            <img src="img/chart-contributors.png" style="width: 80%;" alt="OpenLayers Contributors">
+            <img src="img/chart-contributors.png" style="height: 75%;" alt="OpenLayers Contributors">
+            <div class="caption">contributors</div>
+        </section>
+
+        <section class="slide" id="convenience-setup">
+            <h2>Convenience</h2>
+            <p>Previously:
+                <pre>var map = new OpenLayers.Map("map", {
+    projection: new OpenLayers.Projection(
+        "EPSG:900913"
+    ),
+    maxExtent: new OpenLayers.Bounds(
+        -20037508, -20037508, 
+        20037508, 20037508
+    ),
+    maxResolution: 156543.0339,
+    units: "m"
+});
+map.setCenter(new OpenLayers.LonLat(0, 0), 1);
+</pre>
+            </p>
+        </section>
+
+        <section class="slide" id="convenience-1">
+            <h2>Convenience</h2>
+            <p>Almost:
+                <pre>var map = new OpenLayers.Map({
+    div: "map",
+    projection: "EPSG:900913",
+    maxExtent: [
+        -20037508, -20037508, 
+        20037508, 20037508
+    ],
+    maxResolution: 156543.0339,
+    units: "m",
+    center: [0, 0],
+    zoom: 1
+});
+</pre>
+            </p>
         </section>
         
+        <section class="slide" id="convenience-2">
+            <h2>Convenience</h2>
+            <p>Now:
+                <pre>var map = new OpenLayers.Map({
+    div: "map",
+    projection: "EPSG:900913",
+    center: [0, 0],
+    zoom: 1
+});
+</pre>
+            </p>
+        </section>
+
+        <section class="slide" id="html5">
+            <h2>New features</h2>
+            <img src="img/html5.png" style="height: 80%" alt="HTML5">
+        </section>
+
+        <section class="slide" id="mobile">
+            <h2>Mobile</h2>
+            <img src="img/mobile.png" style="height: 80%" alt="mobile">
+        </section>
+
         <section class="slide" id="thanks">
             <h1>Thanks!</h1>
         </section>
@@ -119,16 +188,16 @@
     $(function() {
         $.deck(".slide");
         
-        var contribImages = ["ahocevar.jpeg", "argson.png", "bartvde.jpeg", "crschmidt.jpeg", "drnextgis.png", "elemoine.jpeg", "fredj.jpeg", "gravatar.png", "gravitystorm.png", "jorix.png", "marcjansen.png", "mprins.jpeg", "mpriour.jpeg", "pagameba.jpeg", "perrygeo.jpeg", "pgiraud.jpeg", "sbrunner.png", "schuyler.jpeg", "tmcw.jpeg", "tomhughes.jpeg", "tonio.jpeg", "towa48.jpeg", "tschaub.png", "twpayne.jpeg", "ZiglioNZ.jpeg"];
-        contribImages.sort(function() {return (Math.round(Math.random())-0.5);});
-        
+        var contribImages = ["ahocevar.jpeg", "argson.png", "bartvde.jpeg", "crschmidt.jpeg", "drnextgis.png", "elemoine.jpeg", "fredj.jpeg", "gravatar.png", "gravitystorm.png", "jorix.png", "marcjansen.png", "mprins.jpeg", "mpriour.jpeg", "pagameba.jpeg", "perrygeo.jpeg", "pgiraud.jpeg", "sbrunner.png", "schuyler.jpeg", "tmcw.jpeg", "tomhughes.jpeg", "tonio.jpeg", "towa48.jpeg", "tschaub.png", "twpayne.jpeg", "ZiglioNZ.jpeg"];        
         var gravatarTimer = null;
         
         $(document).bind("deck.change", function(event, from, to) {
             window.clearTimeout(gravatarTimer);
             var toId = $.deck("getSlide", to).attr("id");
             if (toId === "contributors") {
+                contribImages.sort(function() {return (Math.round(Math.random())-0.5);});
                 var container = $("#contributors-bin");
+                container.html("");
                 var img;
                 for (var i=0, ii=contribImages.length; i<ii; ++i) {
                     img = document.createElement("img");
@@ -137,11 +206,13 @@
                     container.append(img);
                 }
                 gravatarTimer = window.setInterval(function() {
-                    var first = $(container.children()[0]);
-                    var height = first.height();
-                    first.animate({width: "toggle", height: height, opacity: "toggle"}, {complete: function() {
-                        container.append(first);
-                        first.animate({width: "toggle", opacity: "toggle"});
+                    var kids = container.children();
+                    var len = kids.length;
+                    var last = $(container.children()[len-1]);
+                    var height = last.height();
+                    last.animate({width: "toggle", height: height, opacity: "toggle"}, {complete: function() {
+                        last.insertBefore($(kids[0]));
+                        last.animate({width: "toggle", opacity: "toggle"});
                     }});
                 }, 1500);
             }

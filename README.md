@@ -7,11 +7,13 @@ This repo contains slides for an [OpenLayers presentation](http://foss4g-na.org/
  * Move to GitHub
    * increase in activity
    * contributor increase
+ * Convenience
  * HTML5 hype
    * tile transitions
    * simplified/styleable zoom
    * canvas (old and new)
    * local storage
+ * Mobile
  * Slimmer builds
    * move deprecated stuff
    * host common profiles
