@@ -201,14 +201,14 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
 
         <section class="slide" id="fade">
             <h2>Tile transitions</h2>
-            <div id="fade-map" tabindex="0"></div>
+            <div id="fade-map"></div>
             <br>
             <p class="subtle"><em>(and don't forget the new zoom control)</em></p>
         </section>
 
         <section class="slide" id="offline">
             <h2>Offline tile cache</h2>
-            <div id="offline-map" tabindex="0"></div>
+            <div id="offline-map"></div>
             <br>
             <p id="offline-stats" class="subtle"></p>
         </section>
@@ -220,7 +220,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
 
         <section class="slide" id="utfgrid">
             <h2>UTFGrid interaction</h2>
-            <div id="utfgrid-map" tabindex="0">
+            <div id="utfgrid-map">
                 <div id="utfgrid-flag"></div>
             </div>
             <br>
@@ -313,6 +313,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
             // add map to tile transition slide
             fade: {
                 to: function() {
+                    $("#fade-map").attr("tabindex", "0")
                     var height = Math.round(0.65 * $("#fade-map").parent().height());
                     $("#fade-map").height(height);
                     fadeMap = new OpenLayers.Map({
@@ -340,6 +341,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                     );
                 },
                 from: function() {
+                    $("#fade-map").removeAttr('tabindex');
                     if (fadeMap) {
                         fadeMap.destroy();
                         fadeMap = null;
@@ -366,6 +368,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                         
                     }
                     
+                    $("#offline-map").attr("tabindex", "0")
                     var height = Math.round(0.65 * $("#offline-map").parent().height());
                     $("#offline-map").height(height);
                     offlineMap = new OpenLayers.Map({
@@ -392,6 +395,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
 
                 },
                 from: function() {
+                    $("#offline-map").removeAttr('tabindex');
                     if (offlineMap) {
                         offlineMap.destroy();
                         offlineMap = null;
@@ -401,6 +405,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
             // add map to tile transition slide
             utfgrid: {
                 to: function() {
+                    $("#utfgrid-map").attr("tabindex", "0")
                     var height = Math.round(0.65 * $("#utfgrid-map").parent().height());
                     $("#utfgrid-map").height(height);
                     utfgridMap = new OpenLayers.Map({
@@ -462,6 +467,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                     utfgridMap.addControls([utfGrid, keyboardNav]);
                 },
                 from: function() {
+                    $("#utfgrid-map").removeAttr('tabindex');
                     if (utfgridMap) {
                         utfgridMap.destroy();
                         utfgridMap = null;
