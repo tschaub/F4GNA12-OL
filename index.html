@@ -201,14 +201,14 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
 
         <section class="slide" id="fade">
             <h2>Tile transitions</h2>
-            <div id="fade-map"></div>
+            <div id="fade-map" tabindex="0"></div>
             <br>
             <p class="subtle"><em>(and don't forget the new zoom control)</em></p>
         </section>
 
         <section class="slide" id="offline">
             <h2>Offline tile cache</h2>
-            <div id="offline-map"></div>
+            <div id="offline-map" tabindex="0"></div>
             <br>
             <p id="offline-stats" class="subtle"></p>
         </section>
@@ -220,7 +220,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
 
         <section class="slide" id="utfgrid">
             <h2>UTFGrid interaction</h2>
-            <div id="utfgrid-map">
+            <div id="utfgrid-map" tabindex="0">
                 <div id="utfgrid-flag"></div>
             </div>
             <br>
@@ -324,6 +324,11 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                         center: [0, 0],
                         zoom: 1
                     });
+                    fadeMap.addControl(
+                        new OpenLayers.Control.KeyboardDefaults({
+                            observeElement: "fade-map"
+                        })
+                    );
                 },
                 from: function() {
                     if (fadeMap) {
@@ -370,7 +375,10 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                     var cacheWrite = new OpenLayers.Control.CacheWrite({
                         imageFormat: "image/jpeg", autoActivate: true
                     });
-                    offlineMap.addControls([cacheRead, cacheWrite]);
+                    var keyboardNav = new OpenLayers.Control.KeyboardDefaults({
+                        observeElement: "offline-map"
+                    });
+                    offlineMap.addControls([cacheRead, cacheWrite, keyboardNav]);
                     offlineMap.setCenter([0, 0], 1);
 
                 },
@@ -433,12 +441,16 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                         }
                     };
 
-                    var control = new OpenLayers.Control.UTFGrid({
+                    var utfGrid = new OpenLayers.Control.UTFGrid({
                         callback: callback,
                         handlerMode: "move"
                     });
 
-                    utfgridMap.addControl(control);
+                    var keyboardNav = new OpenLayers.Control.KeyboardDefaults({
+                        observeElement: "utfgrid-map"
+                    });
+
+                    utfgridMap.addControls([utfGrid, keyboardNav]);
                 },
                 from: function() {
                     if (utfgridMap) {
