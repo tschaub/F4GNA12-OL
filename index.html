@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="externals/deckjs/extensions/hash/deck.hash.css">
 
     <link rel="stylesheet" href="externals/deckjs/themes/transition/horizontal-slide.css">
+    <link rel="stylesheet" href="externals/openlayers/theme/default/style.css">
 
     <style>
     body {
@@ -48,12 +49,15 @@
         margin: 0 auto;
         width: 60%;
         overflow: hidden;
-        height: 50%;
     }
     .slide img.gravatar {
         margin: 1em;
         width: 100px;
         display: inline;
+    }
+    .slide img.olTileImage {
+        margin: 0;
+        max-width: inherit;
     }
     div.caption {
         font-size: 2.25em;
@@ -90,20 +94,30 @@
             <img src="img/octocat.jpg" style="height: 80%;" alt="OpenLayers on GitHub">
         </section>
 
+        <section class="slide" id="activity-commits">
+            <h2>Increase in commits</h2>
+            <img src="img/chart-commits.png" style="height: 75%;" alt="OpenLayers Commits">
+            <div class="caption">commits</div>
+        </section>
+        <section class="slide" id="activity-contributors">
+            <h2>Increase in contributors</h2>
+            <img src="img/chart-contributors.png" style="height: 75%;" alt="OpenLayers Contributors">
+            <div class="caption">contributors</div>
+        </section>
+
         <section class="slide" id="contributors">
             <h2>Contributors galore</h2>
             <div id="contributors-bin"></div>
         </section>
 
-        <section class="slide" id="activity-commits">
-            <h2>Increase in activity &amp; contributions</h2>
-            <img src="img/chart-commits.png" style="height: 75%;" alt="OpenLayers Commits">
-            <div class="caption">commits</div>
+        <section class="slide" id="collaboration">
+            <h2>Productive collaboration</h2>
+            <br>
+            <img src="img/collaboration.png" style="height: 65%;" alt="issue collaboration">
         </section>
-        <section class="slide" id="activity-contributors">
-            <h2>Increase in activity &amp; contributions</h2>
-            <img src="img/chart-contributors.png" style="height: 75%;" alt="OpenLayers Contributors">
-            <div class="caption">contributors</div>
+
+        <section class="slide" id="2.12">
+            <h1>New in 2.12</h1>
         </section>
 
         <section class="slide" id="convenience-setup">
@@ -155,11 +169,20 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
 });
 </pre>
             </p>
+            <p>Simplified constructors plus sensible defaults.</p>            
+            
         </section>
 
         <section class="slide" id="html5">
             <h2>New features</h2>
             <img src="img/html5.png" style="height: 80%" alt="HTML5">
+        </section>
+
+        <section class="slide" id="fade">
+            <h2>Tile transitions</h2>
+            <div id="fade-map" style="height: 75%"></div>
+            <br>
+            <p class="subtle"><em>(and don't forget the new zoom control)</em></p>
         </section>
 
         <section class="slide" id="mobile">
@@ -184,39 +207,100 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
 <script src="externals/deckjs/extensions/navigation/deck.navigation.js"></script>
 <script src="externals/deckjs/extensions/goto/deck.goto.js"></script>
 <script src="externals/deckjs/extensions/hash/deck.hash.js"></script>
+<script src="externals/openlayers/lib/OpenLayers.js"></script>
 <script>
     $(function() {
+        // listen for slide changes and run custom to/from listeners
+        $(document).bind("deck.change", function(event, from, to) {
+            var toId = $.deck("getSlide", to).attr("id");
+            if (toId in listeners && listeners[toId].to) {
+                // call in next cycle to let slide rendering finish
+                window.setTimeout(function() {
+                    listeners[toId].to();                    
+                }, 0);
+            }
+            var fromId = $.deck("getSlide", from).attr("id");
+            if (fromId in listeners && listeners[fromId].from) {
+                // call in next cycle to let slide rendering finish
+                window.setTimeout(function() {
+                    listeners[fromId].from();
+                }, 0);
+            }
+            
+        });
+        
+        var contribTimer = null;
+        window.fadeMap = null;
+
+        // custom functions to be run when changing to/from specific slides
+        var listeners = {
+            // set up gravatar images on contributors slide
+            contributors: {
+                to: function() {
+                    var contribImages = ["ahocevar.jpeg", "argson.png", "bartvde.jpeg", "crschmidt.jpeg", "drnextgis.png", "elemoine.jpeg", "fredj.jpeg", "gravatar.png", "gravitystorm.png", "jorix.png", "marcjansen.png", "mprins.jpeg", "mpriour.jpeg", "pagameba.jpeg", "perrygeo.jpeg", "pgiraud.jpeg", "sbrunner.png", "schuyler.jpeg", "tmcw.jpeg", "tomhughes.jpeg", "tonio.jpeg", "towa48.jpeg", "tschaub.png", "twpayne.jpeg", "ZiglioNZ.jpeg"];        
+                    contribImages.sort(function() {return (Math.round(Math.random())-0.5);});
+                    var container = $("#contributors-bin");
+                    container.html("");
+                    debugger;
+                    container.height(Math.round(0.8 * container.parent().height()));
+                    var img;
+                    for (var i=0, ii=contribImages.length; i<ii; ++i) {
+                        img = document.createElement("img");
+                        img.className = "gravatar";
+                        img.src = "img/gravatars/" + contribImages[i];
+                        container.append(img);
+                    }
+                    contribTimer = window.setInterval(function() {
+                        var kids = container.children();
+                        var len = kids.length;
+                        var last = $(container.children()[len-1]);
+                        var height = last.height();
+                        last.animate({width: "toggle", height: height, opacity: "toggle"}, {complete: function() {
+                            last.insertBefore($(kids[0]));
+                            last.animate({width: "toggle", opacity: "toggle"});
+                        }});
+                    }, 1500);
+                },
+                from: function() {
+                    window.clearTimeout(contribTimer);
+                }
+            },
+            // add map to tile transition slide
+            fade: {
+                to: function() {
+                    var height = Math.round(0.65 * $("#fade-map").parent().height());
+                    $("#fade-map").height(height);
+                    fadeMap = new OpenLayers.Map({
+                        div: "fade-map",
+                        projection: "EPSG:900913",
+                        layers: [
+                            new OpenLayers.Layer.XYZ(
+                                "MapQuest OSM", 
+                                [
+                                    "http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                                    "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                                    "http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                                    "http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"
+                                ],
+                                {transitionEffect: "resize", wrapDateLine: true}
+                            )
+                        ],
+                        center: [0, 0],
+                        zoom: 1
+                    });
+                },
+                from: function() {
+                    if (fadeMap) {
+                        fadeMap.destroy();
+                    }
+                }
+            }
+        };
+        
+        // initialize slides
         $.deck(".slide");
         
-        var contribImages = ["ahocevar.jpeg", "argson.png", "bartvde.jpeg", "crschmidt.jpeg", "drnextgis.png", "elemoine.jpeg", "fredj.jpeg", "gravatar.png", "gravitystorm.png", "jorix.png", "marcjansen.png", "mprins.jpeg", "mpriour.jpeg", "pagameba.jpeg", "perrygeo.jpeg", "pgiraud.jpeg", "sbrunner.png", "schuyler.jpeg", "tmcw.jpeg", "tomhughes.jpeg", "tonio.jpeg", "towa48.jpeg", "tschaub.png", "twpayne.jpeg", "ZiglioNZ.jpeg"];        
-        var gravatarTimer = null;
         
-        $(document).bind("deck.change", function(event, from, to) {
-            window.clearTimeout(gravatarTimer);
-            var toId = $.deck("getSlide", to).attr("id");
-            if (toId === "contributors") {
-                contribImages.sort(function() {return (Math.round(Math.random())-0.5);});
-                var container = $("#contributors-bin");
-                container.html("");
-                var img;
-                for (var i=0, ii=contribImages.length; i<ii; ++i) {
-                    img = document.createElement("img");
-                    img.className = "gravatar";
-                    img.src = "img/gravatars/" + contribImages[i];
-                    container.append(img);
-                }
-                gravatarTimer = window.setInterval(function() {
-                    var kids = container.children();
-                    var len = kids.length;
-                    var last = $(container.children()[len-1]);
-                    var height = last.height();
-                    last.animate({width: "toggle", height: height, opacity: "toggle"}, {complete: function() {
-                        last.insertBefore($(kids[0]));
-                        last.animate({width: "toggle", opacity: "toggle"});
-                    }});
-                }, 1500);
-            }
-        });
     });
 </script>
 

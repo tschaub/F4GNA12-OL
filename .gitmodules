@@ -1,3 +1,6 @@
 [submodule "externals/deckjs"]
 	path = externals/deckjs
 	url = https://github.com/imakewebthings/deck.js.git
+[submodule "externals/openlayers"]
+	path = externals/openlayers
+	url = git://github.com/openlayers/openlayers.git
