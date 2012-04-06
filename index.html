@@ -227,6 +227,13 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
             <p class="subtle" id="utfgrid-output"></p>
         </section>
 
+        <section class="slide" id="clientzoom">
+            <h2>Continuous zooming</h2>
+            <div id="clientzoom-map">
+            </div>
+            <br>
+        </section>
+
         <section class="slide" id="internals">
             <h2>Code improvements, Refactoring</h2>
             <ul>
@@ -511,6 +518,48 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                     if (utfgridMap) {
                         utfgridMap.destroy();
                         utfgridMap = null;
+                    }
+                }
+            },
+            // add map to client zoom slide
+            clientzoom: {
+                to: function() {
+                    $("#clientzoom-map").attr("tabindex", "0")
+                    var height = Math.round(0.65 * $("#clientzoom-map").parent().height());
+                    $("#clientzoom-map").height(height);
+                    clientzoomMap = new OpenLayers.Map({
+                        div: "clientzoom-map",
+                        projection: "EPSG:900913",
+                        layers: [
+                            new OpenLayers.Layer.XYZ(
+                                "MapQuest OSM",
+                                [
+                                    "http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                                    "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                                    "http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                                    "http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"
+                                ],
+                                {
+                                    wrapDateLine: false,
+                                    serverResolutions: [156543.03390625, 78271.516953125, 39135.7584765625,
+                                                        19567.87923828125, 9783.939619140625, 4891.9698095703125,
+                                                        2445.9849047851562, 1222.9924523925781, 611.4962261962891]
+                                }
+                            )
+                        ],
+                        center: [-8573024.2172157,4706686.4530327],
+                        zoom: 8
+                    });
+                    var keyboardNav = new OpenLayers.Control.KeyboardDefaults({
+                        observeElement: "clientzoom-map"
+                    });
+                    clientzoomMap.addControls([keyboardNav]);
+                },
+                from: function() {
+                    $("#clientzoom-map").removeAttr('tabindex');
+                    if (clientzoomMap) {
+                        clientzoomMap.destroy();
+                        clientzoomMap = null;
                     }
                 }
             },
