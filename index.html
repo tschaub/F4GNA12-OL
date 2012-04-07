@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="externals/deckjs/themes/transition/horizontal-slide.css">
     <link rel="stylesheet" href="externals/openlayers/theme/default/style.css">
+    <link rel="stylesheet" href="externals/jquery-ui-1.8.18.custom/css/ui-lightness/jquery-ui-1.8.18.custom.css">
 
     <style>
     body {
@@ -79,6 +80,10 @@
         -moz-box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.3);
         -webkit-box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.3);
         box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.3);
+    }
+    #clientzoom-slider {
+        margin-bottom: 18px;
+        background: rgba(0, 60, 136, 0.5);
     }
 
     .olControlAttribution {
@@ -229,6 +234,8 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
 
         <section class="slide" id="clientzoom">
             <h2>Continuous zooming</h2>
+            <div id="clientzoom-slider">
+            </div>
             <div id="clientzoom-map">
             </div>
             <br>
@@ -301,6 +308,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
 <script src="externals/deckjs/extensions/goto/deck.goto.js"></script>
 <script src="externals/deckjs/extensions/hash/deck.hash.js"></script>
 <script src="externals/openlayers/lib/OpenLayers.js"></script>
+<script src="externals/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min.js"></script>
 <script>
     $(function() {
         // listen for slide changes and run custom to/from listeners
@@ -529,6 +537,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                     clientzoomMap = new OpenLayers.Map({
                         div: "clientzoom-map",
                         projection: "EPSG:900913",
+                        fractionalZoom: true,
                         layers: [
                             new OpenLayers.Layer.XYZ(
                                 "MapQuest OSM",
@@ -540,19 +549,34 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                                 ],
                                 {
                                     wrapDateLine: false,
-                                    serverResolutions: [156543.03390625, 78271.516953125, 39135.7584765625,
-                                                        19567.87923828125, 9783.939619140625, 4891.9698095703125,
-                                                        2445.9849047851562, 1222.9924523925781, 611.4962261962891]
+                                    transitionEffect: "resize",
+                                    serverResolutions: [156543.03390625, 78271.516953125, 39135.7584765625, 19567.87923828125, 9783.939619140625, 4891.9698095703125, 2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814453, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508]
                                 }
                             )
                         ],
                         center: [-8573024.2172157,4706686.4530327],
-                        zoom: 8
+                        zoom: 7
                     });
                     var keyboardNav = new OpenLayers.Control.KeyboardDefaults({
                         observeElement: "clientzoom-map"
                     });
                     clientzoomMap.addControls([keyboardNav]);
+
+                    $("#clientzoom-slider").slider({
+                        slide: function(e, ui) {
+                            e.stopPropagation();
+                            clientzoomMap.zoomTo(ui.value);
+                        },
+                        min: 0,
+                        max: clientzoomMap.baseLayer.numZoomLevels - 1,
+                        value: clientzoomMap.getZoom(),
+                        step: 0.01
+                    });
+                    clientzoomMap.events.on({
+                        moveend: function() {
+                            $("#clientzoom-slider").slider("value", [clientzoomMap.getZoom()]);
+                        }
+                    });
                 },
                 from: function() {
                     $("#clientzoom-map").removeAttr('tabindex');
@@ -560,6 +584,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                         clientzoomMap.destroy();
                         clientzoomMap = null;
                     }
+                    $("#clientzoom-slider").slider("destroy");
                 }
             },
         };
