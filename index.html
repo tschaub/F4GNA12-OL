@@ -242,34 +242,42 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
         </section>
 
         <section class="slide" id="internals">
-            <h2>Code improvements, Refactoring</h2>
+            <h2>Internals improvements</h2>
             <ul>
-                <li><code>requestAnimationFrame</code></li>
-                <li>tile queues</li>
-                <li>back buffer overhaul</li>
+            <li>Use requestAnimationFrame for animations (when available)</li>
+            <!-- Speaker notes:
+                 requestAnimationFrame allows for
+                 - more faithful animations
+                 - less CPU and GPU usage
+            -->
+            <li>Tile queues for abortable tile requests</li>
+            <li>Back buffer overhaul</li>
             </ul>
+            <p class="subtle">Basically performance optimizations</p>
         </section>
 
         <section class="slide" id="ongoing">
             <h1>Ongoing stuff, and ideas for the future</h1>
+            <!-- Note: been thinking about using a different title
+                 for this section. Something like "Roadmap/Wishes".
+            -->
         </section>
 
         <section class="slide" id="improvedui">
             <h2>Improved UIs</h2>
-            <p>On par with the new <code>Zoom</code> control
+            <h3>On par with the new <code>Zoom</code> control</h3>
             <ul>
                 <li>Look & feel</li>
                 <li>Accessibility</li>
                 <li>CSS styling</li>
             </ul>
             </p>
-            <p>
-            Zoom Animation
-            </p>
+            <h3>Zoom Animation</h3>
         </section>
 
         <section class="slide" id="improvedapis">
             <h2>Improved APIs</h2>
+            <p>The OpenLayers APIs have improved. We want and can do better!</p>
             <p>E.g. Projection-aware Location and Bounds</p>
         </section>
 
