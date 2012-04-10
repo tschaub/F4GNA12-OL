@@ -104,13 +104,6 @@
             </ul>
         </div>
 
-        <section class="slide" id="intro">
-            <h1>Intro</h1>
-            <!-- Speaker notes:
-            - How did we get here?
-            -->
-        </section>
-
         <section class="slide" id="whats-new">
             <h1>What's new?<br><em class="subtle">(and some old stuff you should know about too)</em></h1>
         </section>
@@ -143,60 +136,12 @@
         </section>
 
         <section class="slide" id="2.12">
-            <h1>New in 2.12</h1>
+            <h1>New in 2.11 &amp; 2.12</h1>
         </section>
 
-        <section class="slide" id="convenience-setup">
-            <h2>Convenience</h2>
-            <p>Previously:
-                <pre>var map = new OpenLayers.Map("map", {
-    projection: new OpenLayers.Projection(
-        "EPSG:900913"
-    ),
-    maxExtent: new OpenLayers.Bounds(
-        -20037508, -20037508, 
-        20037508, 20037508
-    ),
-    maxResolution: 156543.0339,
-    units: "m"
-});
-map.setCenter(new OpenLayers.LonLat(0, 0), 1);
-</pre>
-            </p>
-        </section>
-
-        <section class="slide" id="convenience-1">
-            <h2>Convenience</h2>
-            <p>Almost:
-                <pre>var map = new OpenLayers.Map({
-    div: "map",
-    projection: "EPSG:900913",
-    maxExtent: [
-        -20037508, -20037508, 
-        20037508, 20037508
-    ],
-    maxResolution: 156543.0339,
-    units: "m",
-    center: [0, 0],
-    zoom: 1
-});
-</pre>
-            </p>
-        </section>
-        
-        <section class="slide" id="convenience-2">
-            <h2>Convenience</h2>
-            <p>Now:
-                <pre>var map = new OpenLayers.Map({
-    div: "map",
-    projection: "EPSG:900913",
-    center: [0, 0],
-    zoom: 1
-});
-</pre>
-            </p>
-            <p>Simplified constructors plus sensible defaults.</p>            
-            
+        <section class="slide" id="mobile">
+            <h2>Mobile</h2>
+            <img src="img/mobile.png" style="height: 80%" alt="mobile">
         </section>
 
         <section class="slide" id="html5">
@@ -218,11 +163,6 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
             <p id="offline-stats" class="subtle"></p>
         </section>
 
-        <section class="slide" id="mobile">
-            <h2>Mobile</h2>
-            <img src="img/mobile.png" style="height: 80%" alt="mobile">
-        </section>
-
         <section class="slide" id="utfgrid">
             <h2>UTFGrid interaction</h2>
             <div id="utfgrid-map">
@@ -239,21 +179,6 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
             <div id="clientzoom-map">
             </div>
             <br>
-        </section>
-
-        <section class="slide" id="internals">
-            <h2>Internals improvements</h2>
-            <ul>
-            <li>Use <code>requestAnimationFrame</code> for animations (when available)</li>
-            <!-- Speaker notes:
-                 requestAnimationFrame allows for
-                 - more faithful animations
-                 - less CPU and GPU usage
-            -->
-            <li>Tile queues for abortable tile requests</li>
-            <li>Back buffer overhaul</li>
-            </ul>
-            <p class="subtle">Basically performance optimizations</p>
         </section>
 
         <section class="slide" id="ongoing">
@@ -277,32 +202,71 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
 
         <section class="slide" id="improvedapis">
             <h2>Improved APIs</h2>
+            <p>Previously:
+                <pre>var map = new OpenLayers.Map("map", {
+    projection: new OpenLayers.Projection(
+        "EPSG:900913"
+    ),
+    maxExtent: new OpenLayers.Bounds(
+        -20037508, -20037508, 
+        20037508, 20037508
+    ),
+    maxResolution: 156543.0339,
+    units: "m"
+});
+map.setCenter(new OpenLayers.LonLat(0, 0), 1);
+</pre>
+            </p>
+        </section>
+
+        <section class="slide" id="convenience-2">
+            <h2>Improved APIs</h2>
+            <p>Now:
+                <pre>var map = new OpenLayers.Map({
+    div: "map",
+    projection: "EPSG:900913",
+    center: [0, 0],
+    zoom: 1
+});
+</pre>
+            </p>
+            <p>Simplified constructors plus sensible defaults.</p>            
             <p>The OpenLayers APIs have improved. We want and can do better!</p>
             <p>E.g. Projection-aware Location and Bounds</p>
         </section>
 
-        <section class="slide" id="exampleslayout">
-            <h2>Improved examples layout</h2>
-            <img src="img/exampleslayouthoriz.png" style="height: 75%;" alt="Examples layout">
-            <p></p>
-            <p class="subtle">(Proposal from @tonio - http://tonio.biz/openlayers/examples/osm2.html)</p>
+        <section class="slide" id="internals">
+            <h2>Internal Improvements</h2>
+            <ul>
+            <li>Use <code>requestAnimationFrame</code> for animations (when available)</li>
+            <!-- Speaker notes:
+                 requestAnimationFrame allows for
+                 - more faithful animations
+                 - less CPU and GPU usage
+            -->
+            <li>Tile queues for abortable tile requests</li>
+            <li>Back buffer overhaul</li>
+            </ul>
+            <p class="subtle">Basically performance optimizations</p>
         </section>
 
-        <section class="slide" id="builder">
-            <h2>Online builder</h2>
-            <img src="img/openlayerer.png" style="height: 75%;" alt="OpenLayerer">
         </section>
+        <section class="slide" id="moreimprovements">
+            <h2>More usability improvements</h2>
+            <ul>
+                <li>Website</li>
+                <li>Prose Docs</li>
+                <li>API Docs</li>
+                <li>Examples</li>
+                <li>Hosted build tool</li>
+            </ul>
 
-        <section class="slide" id="raster">
-            <h2>Client-side raster operations</h2>
-            <a href="http://demo.opengeo.org/~tschaub/ol/raster/examples/raster-operations.html"><img src="img/raster.png" style="height: 75%;" alt="raster ops"></a>
         </section>
 
         <section class="slide" id="discussions">
-            <h2>Other discussions</h2>
-            <p>
-            WebGL
-            </p>
+            <h2>Future features</h2>
+            <p>Ongoing discussion about Canvas, WebGL, and more.</p>
+            <img src="img/future-mosaic.png" style="height: 65%;" alt="future">
         </section>
 
         <section class="slide" id="thanks">
@@ -325,6 +289,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
 <script src="externals/openlayers/lib/OpenLayers.js"></script>
 <script src="externals/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min.js"></script>
 <script>
+    OpenLayers.Control.CacheWrite = OpenLayers.Class(OpenLayers.Control, {});
     $(function() {
         // listen for slide changes and run custom to/from listeners
         $(document).bind("deck.change", function(event, from, to) {
@@ -382,6 +347,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
             // add map to tile transition slide
             fade: {
                 to: function() {
+                    OpenLayers.ProxyHost = "/proxy/?url=";
                     $("#fade-map").attr("tabindex", "0")
                     var height = Math.round(0.65 * $("#fade-map").parent().height());
                     $("#fade-map").height(height);
@@ -403,6 +369,12 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                         center: [0, 0],
                         zoom: 1
                     });
+                    var cacheRead = new OpenLayers.Control.CacheRead();
+                    var cacheWrite = new OpenLayers.Control.CacheWrite({
+                        imageFormat: "image/jpeg", autoActivate: true
+                    });
+                    fadeMap.addControls([cacheRead, cacheWrite]);
+
                     fadeMap.addControl(
                         new OpenLayers.Control.KeyboardDefaults({
                             observeElement: "fade-map"
@@ -410,6 +382,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                     );
                 },
                 from: function() {
+                    delete OpenLayers.ProxyHost;
                     $("#fade-map").removeAttr('tabindex');
                     if (fadeMap) {
                         fadeMap.destroy();
@@ -474,6 +447,8 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
             // add map to tile transition slide
             utfgrid: {
                 to: function() {
+                    OpenLayers.ProxyHost = "/proxy/?url=";
+                    
                     $("#utfgrid-map").attr("tabindex", "0")
                     var height = Math.round(0.65 * $("#utfgrid-map").parent().height());
                     $("#utfgrid-map").height(height);
@@ -499,8 +474,13 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                             })
                         ],
                         center: [0, 0],
-                        zoom: 1
+                        zoom: 2
                     });
+                    var cacheRead = new OpenLayers.Control.CacheRead();
+                    var cacheWrite = new OpenLayers.Control.CacheWrite({
+                        imageFormat: "image/jpeg", autoActivate: true
+                    });
+                    utfgridMap.addControls([cacheRead, cacheWrite]);
                     
                     var output = document.getElementById("utfgrid-output");
                     var flag = document.getElementById("utfgrid-flag");
@@ -536,6 +516,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                     utfgridMap.addControls([utfGrid, keyboardNav]);
                 },
                 from: function() {
+                    delete OpenLayers.ProxyHost;
                     $("#utfgrid-map").removeAttr('tabindex');
                     if (utfgridMap) {
                         utfgridMap.destroy();
@@ -546,6 +527,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
             // add map to client zoom slide
             clientzoom: {
                 to: function() {
+                    OpenLayers.ProxyHost = "/proxy/?url=";
                     $("#clientzoom-map").attr("tabindex", "0")
                     var height = Math.round(0.65 * $("#clientzoom-map").parent().height());
                     $("#clientzoom-map").height(height);
@@ -577,6 +559,12 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                     });
                     clientzoomMap.addControls([keyboardNav]);
 
+                    var cacheRead = new OpenLayers.Control.CacheRead();
+                    var cacheWrite = new OpenLayers.Control.CacheWrite({
+                        imageFormat: "image/jpeg", autoActivate: true
+                    });
+                    clientzoomMap.addControls([cacheRead, cacheWrite]);
+
                     $("#clientzoom-slider").slider({
                         slide: function(e, ui) {
                             e.stopPropagation();
@@ -594,6 +582,7 @@ map.setCenter(new OpenLayers.LonLat(0, 0), 1);
                     });
                 },
                 from: function() {
+                    delete OpenLayers.ProxyHost;
                     $("#clientzoom-map").removeAttr('tabindex');
                     if (clientzoomMap) {
                         clientzoomMap.destroy();
