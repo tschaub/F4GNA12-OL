@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="externals/deckjs/core/deck.core.css">
+    <link rel="stylesheet" href="externals/deckjs/extensions/navigation/deck.navigation.css">
+    <link rel="stylesheet" href="externals/deckjs/extensions/goto/deck.goto.css">
+    <link rel="stylesheet" href="externals/deckjs/extensions/hash/deck.hash.css">
+
+    <link rel="stylesheet" href="externals/deckjs/themes/transition/horizontal-slide.css">
+    <link rel="stylesheet" href="externals/openlayers/theme/default/style.css">
+    <link rel="stylesheet" href="externals/jquery-ui-1.8.18.custom/css/ui-lightness/jquery-ui-1.8.18.custom.css">
+
+    <style>
+    body {
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+    }
+    .deck-container .slide h1 {
+        text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    }
+    .deck-container .slide h2 {
+        color: #2d60b5;
+        border-bottom-color: #e28f3d;
+    }
+    .slide p, .slide li {
+        font-size: 150%;
+    }
+    .subtle {
+        color: #666;
+    }
+    .slide em.subtle {
+        font-size: 50%;
+    }
+    ul.authors {
+        position: absolute;
+        top: 70%;
+    }
+    ul.authors li {
+        list-style: none;
+        font-size: 2.25em;
+        font-weight: bold;
+    }
+    div.caption {
+        font-size: 2.25em;
+        text-align: center;
+    }
+    
+    #contributors-bin {
+        margin: 0 auto;
+        width: 60%;
+        overflow: hidden;
+    }
+    .slide img.gravatar {
+        margin: 1em;
+        width: 100px;
+        display: inline;
+    }
+    .slide img.olTileImage {
+        margin: 0;
+        max-width: inherit;
+    }
+    div.caption {
+        font-size: 2.25em;
+        text-align: center;
+    }
+    #utfgrid-flag {
+        position: relative;
+        z-index: 999;
+        height: 0px;
+        width: 0px;
+        -moz-transition: all 0.1s linear;
+        -webkit-transition: all 0.1s linear;
+    }
+    #utfgrid-flag img {
+        margin: 0;
+        max-width: inherit;
+        position: absolute;
+        width: 80px;
+        -moz-box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.3);
+        box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.3);
+    }
+    #clientzoom-slider {
+        margin-bottom: 18px;
+        background: rgba(0, 60, 136, 0.5);
+    }
+
+    .olControlAttribution {
+        bottom: 3px;
+    }
+    </style>
+    <script src="present-min.js"></script>
+</head>
+
+<body class="deck-container">
+        <div class="slide" id="frontpage">
+            <!--
+            Tim
+            -->
+            <h2>The Rebirth of Cool</h2>
+            <h1>OpenLayers</h1>
+            <ul class="authors">
+                <li>Tim Schaub <span class="subtle">(OpenGeo)</span></li>
+                <li>Eric Lemoine <span class="subtle">(Camptocamp)</span></li>
+            </ul>
+        </div>
+
+        <section class="slide" id="whats-new">
+            <!--
+            Tim
+            -->
+            <h1>What's new?<br><em class="subtle">(and some old stuff you should know about too)</em></h1>
+        </section>
+        
+        <section class="slide" id="github-move">
+            <!--
+            Tim
+            -->
+            <h2>We've moved!</h2>
+            <img src="img/octocat.jpg" style="height: 80%;" alt="OpenLayers on GitHub">
+        </section>
+
+        <section class="slide" id="activity-commits">
+            <!--
+            Tim
+            -->
+            <h2>Increase in commits</h2>
+            <img src="img/chart-commits.png" style="height: 75%;" alt="OpenLayers Commits">
+            <div class="caption">commits</div>
+        </section>
+        <section class="slide" id="activity-contributors">
+            <!--
+            Tim
+            -->
+            <h2>Increase in contributors</h2>
+            <img src="img/chart-contributors.png" style="height: 75%;" alt="OpenLayers Contributors">
+            <div class="caption">contributors</div>
+        </section>
+
+        <section class="slide" id="contributors">
+            <!--
+            Tim
+            -->
+            <h2>Contributors galore</h2>
+            <div id="contributors-bin"></div>
+        </section>
+
+        <section class="slide" id="2.12">
+            <!--
+            Tim
+            -->
+            <h1>New in 2.11 &amp; 2.12</h1>
+        </section>
+
+        <section class="slide" id="mobile">
+            <!--
+            Tim
+            -->
+            <h2>Mobile</h2>
+            <img src="img/mobile.png" style="height: 80%" alt="mobile">
+        </section>
+
+        <section class="slide" id="html5">
+            <!--
+            Eric
+            -->
+            <h2>New features</h2>
+            <img src="img/html5.png" style="height: 80%" alt="HTML5">
+        </section>
+
+        <section class="slide" id="fade">
+            <!--
+            Eric
+            -->
+            <h2>Tile transitions</h2>
+            <div id="fade-map"></div>
+            <br>
+            <p class="subtle"><em>(and don't forget the new zoom control)</em></p>
+        </section>
+
+        <section class="slide" id="offline">
+            <!--
+            Eric
+            -->
+            <h2>Offline tile cache</h2>
+            <div id="offline-map"></div>
+            <br>
+            <p id="offline-stats" class="subtle"></p>
+        </section>
+
+        <section class="slide" id="canvas">
+            <!--
+            Tim
+            -->
+            <h2>Canvas rendering</h2>
+            <img src="img/canvas.png" style="height: 80%" alt="canvas">
+        </section>
+
+        <section class="slide" id="utfgrid">
+            <!--
+            Tim
+            -->
+            <h2>UTFGrid interaction</h2>
+            <div id="utfgrid-map">
+                <div id="utfgrid-flag"></div>
+            </div>
+            <br>
+            <p class="subtle" id="utfgrid-output"></p>
+        </section>
+
+        <section class="slide" id="clientzoom">
+            <!--
+            Eric
+            -->
+            <h2>Continuous zooming</h2>
+            <div id="clientzoom-slider">
+            </div>
+            <div id="clientzoom-map">
+            </div>
+            <br>
+        </section>
+
+        <section class="slide" id="ongoing">
+            <!--
+            Eric
+            -->
+            <h1>Ongoing stuff, and ideas for the future</h1>
+            <!-- Note: been thinking about using a different title
+                 for this section. Something like "Roadmap/Wishes".
+            -->
+        </section>
+
+        <section class="slide" id="improvedui">
+            <!--
+            Eric
+            -->
+            <h2>Improved UI/UX</h2>
+            <img src="img/controls.png" style="width: 65%; float: right" alt="OpenLayers Controls">
+            <h3>On par with the new <code>Zoom</code> control</h3>
+            <ul>
+                <li>Look &amp; feel</li>
+                <li>Accessibility</li>
+                <li>CSS styling</li>
+            </ul>
+            </p>
+            <h3>Zoom Animation</h3>
+        </section>
+
+        <section class="slide" id="improvedapis">
+            <!--
+            Tim
+            -->
+            <h2>Improved APIs</h2>
+            <p>Previously:
+                <pre>var map = new OpenLayers.Map("map", {
+    projection: new OpenLayers.Projection(
+        "EPSG:900913"
+    ),
+    maxExtent: new OpenLayers.Bounds(
+        -20037508, -20037508, 
+        20037508, 20037508
+    ),
+    maxResolution: 156543.0339,
+    units: "m"
+});
+map.setCenter(new OpenLayers.LonLat(0, 0), 1);
+</pre>
+            </p>
+        </section>
+
+        <section class="slide" id="convenience-2">
+            <!--
+            Tim
+            -->
+            <h2>Improved APIs</h2>
+            <p>Now:
+                <pre>var map = new OpenLayers.Map({
+    div: "map",
+    projection: "EPSG:900913",
+    center: [0, 0],
+    zoom: 1
+});
+</pre>
+            </p>
+            <p>Simplified constructors plus sensible defaults.</p>            
+            <p>The OpenLayers APIs have improved.  But we can continue making improvements (e.g. CRS aware location and bounds).</p>
+        </section>
+
+        <section class="slide" id="internals">
+            <!--
+            Eric
+            -->
+            <h2>Internal Improvements</h2>
+            <img src="img/fast-cat.jpg" style="width: 55%; float: right; margin-left: 1em;" alt="performance">
+            <h3>Performance optimizations</h3>
+            <ul>
+            <li>Use <code>requestAnimationFrame</code> for animations (when available)</li>
+            <!-- Speaker notes:
+                 requestAnimationFrame allows for
+                 - more faithful animations
+                 - less CPU and GPU usage
+            -->
+            <li>Tile queues for abortable tile requests</li>
+            <li>Back buffer overhaul</li>
+            </ul>
+        </section>
+
+        </section>
+            <!--
+            Eric
+            -->
+        <section class="slide" id="moreimprovements">
+            <h2>More usability improvements</h2>
+            <img src="img/docs.png" style="width: 55%; float: right; margin-left: 1em;" alt="OpenLayers Docs">
+            <ul>
+                <li>Website overhaul</li>
+                <li>More/better prose docs</li>
+                <li>Improved API docs</li>
+                <li>Organized examples</li>
+                <li>Hosted build tool</li>
+            </ul>
+
+        </section>
+
+        <section class="slide" id="discussions">
+            <!--
+            Tim
+            -->
+            <h2>Future features</h2>
+            <img src="img/future-mosaic.png" style="height: 80%; float: left;" alt="future">
+            <p>Ongoing discussion about Canvas 2D, WebGL, and more.</p>
+        </section>
+
+        <section class="slide" id="thanks">
+            <h1>Thanks!</h1>
+        </section>
+
+        <form action="." method="get" class="goto-form">
+            <label for="goto-slide">Go to slide:</label>
+
+            <input type="number" name="slidenum" id="goto-slide">
+            <input type="submit" value="Go">
+        </form>
+</body>
+</html>
