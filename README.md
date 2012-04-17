@@ -4,7 +4,7 @@ This repo contains slides for an [OpenLayers
 presentation](http://foss4g-na.org/schedule/openlayers-the-rebirth-of-cool/) at
 [FOSS4G-NA 2012](http://foss4g-na.org/).
 
-The slides are available online at http://tschaub.github.com/F4GNA12-OL.
+To view the slides open index.html in a browser. An internet connection
+is required to view the OpenLayers examples.
 
-With a clone or zip of this repository just point your browser to the
-index.html file.
+The slides are also available online at http://tschaub.github.com/F4GNA12-OL.
